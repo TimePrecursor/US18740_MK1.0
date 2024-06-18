@@ -1,12 +1,12 @@
 # Import all needed modules
 import tkinter.ttk as ttk
 from tkinter import *
-
+from tkinter import messagebox
 
 # set up UI
 window = Tk()
 window.config(bg='lightgrey')
-window.title("Calculator")
+window.title("Login")
 window.geometry('500x500')
 window.resizable(0,0)
 
@@ -23,6 +23,17 @@ global file_path
 file_path = 'secrets.txt'
 
 
+def mainpage_window():
+    window12 = Toplevel()
+    window2 = Tk()
+    window2.config(bg='lightgrey')
+    window2.title("MainPage")
+    window2.geometry('500x500')
+    window2.resizable(0,0)
+    
+
+#signing in process
+
 def sign_in_Step1():
     with open(file_path, 'r') as file:
         x_pin = str(placeholder_pin.get())
@@ -34,7 +45,7 @@ def sign_in_Step1():
             print(count,element)
             if x_user in element and (x_pin in element):
                 print(f"{x_pin} is the right password for {placeholder_user.get()}")
-                login_user2(x_user)
+                login_user_step2(x_user)
         
             # if x in element:
             #     print(f"{x} is the right password for {placeholder_user.get()}")
@@ -103,12 +114,15 @@ def check_pin():
 
 
 # the actual login function that splits the user to two different databases
-def login_user2(username):
+
+
+    
+    
+def login_user_step2(username):
     if username == "Lou" or "lou":
-        pass
-        
+        messagebox.showinfo("Hello", f"Welcome {username}. You have been logged in!", command= mainpage_window()) 
     elif username == "Lewis" or "lewis":    
-        pass
+        messagebox.showinfo("Hello", f"Welcome {username}. You have been logged in!", command= mainpage_window()) 
         
 
 # Score
@@ -135,6 +149,9 @@ def login_user2(username):
 
 
 
+# Main Code!
+
+
 
 
 # FINAL set up UI
@@ -148,7 +165,5 @@ passwentry = Entry(window, textvariable = placeholder_pin).pack()
 signin_btn = Button(window, text = 'Sign in', command = check_pin).pack(pady=20)
 
 
-
-
 # Mainloop
-window.mainloop()
+mainloop()
