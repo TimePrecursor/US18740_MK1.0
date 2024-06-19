@@ -24,7 +24,6 @@ file_path = 'secrets.txt'
 
 
 def mainpage_window():
-    window12 = Toplevel()
     window2 = Tk()
     window2.config(bg='lightgrey')
     window2.title("MainPage")
@@ -38,14 +37,19 @@ def sign_in_Step1():
     with open(file_path, 'r') as file:
         x_pin = str(placeholder_pin.get())
         x_user = str(placeholder_user.get())
-        linesnum = file.readlines()
-        print(linesnum)
         indexlol = 0
-        for count, element in enumerate(linesnum):
+        for count, element in enumerate(file.readlines()):
             print(count,element)
-            if x_user in element and (x_pin in element):
-                print(f"{x_pin} is the right password for {placeholder_user.get()}")
+            if (x_user == "Lou" or "lou") and (x_pin == "2200"):
+                print("The right password for lou has been entered")
                 login_user_step2(x_user)
+                break
+            elif  (x_user == "Lewis" or "lewis") and (x_pin == "3300"):
+                print("The right password for lewis has been entered")
+                login_user_step2(x_user)
+                break
+            else:
+                print("aaaa")
         
             # if x in element:
             #     print(f"{x} is the right password for {placeholder_user.get()}")
@@ -97,6 +101,13 @@ def check_pin():
     print(x)
     try:
         y = int(x)+2
+        x2 = x
+        count = 0
+        # while x2 != 0:
+        #     x2 //= 10
+        #     count += 1
+        if len(str(x)) != 4:
+            Exception(TypeError)
         # y2 = str(x).split()
         # print(len(y2))
         # if len(y2) != 4:
@@ -120,9 +131,11 @@ def check_pin():
     
 def login_user_step2(username):
     if username == "Lou" or "lou":
-        messagebox.showinfo("Hello", f"Welcome {username}. You have been logged in!", command= mainpage_window()) 
+        messagebox.showinfo("Hello", f"Welcome {username}. You have been logged in!") 
+        mainpage_window()
     elif username == "Lewis" or "lewis":    
-        messagebox.showinfo("Hello", f"Welcome {username}. You have been logged in!", command= mainpage_window()) 
+        messagebox.showinfo("Hello", f"Welcome {username}. You have been logged in!") 
+        mainpage_window()
         
 
 # Score
