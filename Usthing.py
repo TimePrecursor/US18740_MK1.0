@@ -24,12 +24,16 @@ file_path = 'secrets.txt'
 
 
 def mainpage_window():
+    global window2
     window2 = Tk()
     window2.config(bg='lightgrey')
     window2.title("MainPage")
-    window2.geometry('500x500')
+    window2.geometry('800x500')
     window2.resizable(0,0)
     window.destroy()
+    secondindowUI()
+    
+    
     
 
 #signing in process
@@ -38,18 +42,22 @@ def sign_in_Step1():
     with open(file_path, 'r') as file:
         x_pin = str(placeholder_pin.get())
         x_user = str(placeholder_user.get())
+        indexthing = 0
         for count, element in enumerate(file.readlines()):
             print(count,element)
-            if (x_user == "Lou" or "lou") and (x_pin == "2200"):
+            indexthing += 1
+            if x_user in str(element) and x_pin in str(element):
                 print("The right password for lou has been entered")
                 login_user_step2(x_user)
                 break
-            elif  (x_user == "Lewis" or "lewis") and (x_pin == "3300"):
+            elif x_user in str(element) and x_pin in str(element):
                 print("The right password for lewis has been entered")
                 login_user_step2(x_user)
                 break
+            elif indexthing == 2:
+                messagebox.showerror("Error", "Wrong username or password!")
             else:
-                print("aaaa")
+                print("an error accured")
         
             # if x in element:
             #     print(f"{x} is the right password for {placeholder_user.get()}")
@@ -139,12 +147,16 @@ def login_user_step2(username):
         
 
 # Score
+def show_scores():
+    pass
 
-
-
+def scoressearch():
+    pass
 
 
 # Percentage
+def show_percentages():
+    pass
 
 
 
@@ -166,15 +178,27 @@ def login_user_step2(username):
 
 
 
+# Second window set up UI
+def secondindowUI():
+    avg_percent = 10
+    #scores setup
+    scores_label = Label(window2, text = 'Student Scores:', font = ('calibre',15)).grid(column=1,row=1, pady=10,padx=5)
+    scores_btn = Button(window2, text = 'Show', command = show_scores).grid(column=1,row=2,padx=10,pady=5)
+    scoressearch_label = Label(window2, text = 'Search for a Student:', font = ('calibre',11)).grid(column=1,row=5,pady=3)
+    scoressearch_entry = Entry(window2, textvariable = placeholder_pin).grid(column=1,row=6)
+    scoressearch_btn = Button(window2, text = 'Search', command = scoressearch).grid(column=1,row=7)
+    
+    #percentage setup
+    percentage_label = Label(window2, text = 'Student Percentages:', font = ('calibre',15)).grid(column=4,row=1, pady=10,padx=5)
+    percentage_btn = Button(window2, text = 'Show', command = show_percentages).grid(column=4,row=2,padx=10,pady=5)
+    avg_percentage_label = Label(window2, text = f'Average Percentage: {avg_percent}', font = ('calibre',10)).grid(column=4,row=8, pady=5,padx=5)
+
 
 # FINAL set up UI
 userlabel = Label(window, text = 'Username:', font = ('calibre',10,'bold')).pack(pady=10)
 userwentry = Entry(window, textvariable = placeholder_user).pack()
-
 passlabel = Label(window, text = 'Pin:', font = ('calibre',10,'bold')).pack(pady=10)
 passwentry = Entry(window, textvariable = placeholder_pin).pack()
-
-
 signin_btn = Button(window, text = 'Sign in', command = check_pin).pack(pady=20)
 
 
