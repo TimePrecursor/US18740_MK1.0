@@ -29,6 +29,7 @@ def mainpage_window():
     window2.title("MainPage")
     window2.geometry('500x500')
     window2.resizable(0,0)
+    window.destroy()
     
 
 #signing in process
@@ -37,7 +38,6 @@ def sign_in_Step1():
     with open(file_path, 'r') as file:
         x_pin = str(placeholder_pin.get())
         x_user = str(placeholder_user.get())
-        indexlol = 0
         for count, element in enumerate(file.readlines()):
             print(count,element)
             if (x_user == "Lou" or "lou") and (x_pin == "2200"):
