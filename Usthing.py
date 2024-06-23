@@ -25,7 +25,7 @@ file_path = 'secrets.txt'
 
 def mainpage_window():
     global window2
-    window2 = Tk()
+    window2 = Toplevel(window)
     window2.config(bg='lightgrey')
     window2.title("MainPage")
     window2.geometry('800x500')
@@ -135,8 +135,6 @@ def check_pin():
 # the actual login function that splits the user to two different databases
 
 
-    
-    
 def login_user_step2(username):
     if username == "Lou" or "lou":
         messagebox.showinfo("Hello", f"Welcome {username}. You have been logged in!") 
@@ -176,22 +174,42 @@ def show_percentages():
 
 # Main Code!
 
-
-
+#Student search function
+def student_search():
+    student_id = "?"
+    student_Lname = "?"
+    search = str(placeholder_user.get())
+    user = str(placeholder_user.get())
+    file_path = f"students_{user}.txt"
+    with open(file_path, 'r') as file:
+        linesnum = file.readlines()
+        if str(search) not in file.read():
+            messagebox.showerror("Error", "Invalid student name or ID")
+        elif str(search) in file.read():
+            for count,element in enumerate(linesnum):
+                if search in linesnum[count]:
+                    messagebox.showinfo("Student Found!", f"ID: {student_id}\n Last Name: {student_Lname}")
+                    continue
+    
+                
+                
 # Second window set up UI
+student_search_entry = StringVar()
 def secondindowUI():
     avg_percent = 10
     #scores setup
     scores_label = Label(window2, text = 'Student Scores:', font = ('calibre',15)).grid(column=1,row=1, pady=10,padx=5)
     scores_btn = Button(window2, text = 'Show', command = show_scores).grid(column=1,row=2,padx=10,pady=5)
-    scoressearch_label = Label(window2, text = 'Search for a Student:', font = ('calibre',11)).grid(column=1,row=5,pady=3)
-    scoressearch_entry = Entry(window2, textvariable = placeholder_pin).grid(column=1,row=6)
-    scoressearch_btn = Button(window2, text = 'Search', command = scoressearch).grid(column=1,row=7)
     
     #percentage setup
     percentage_label = Label(window2, text = 'Student Percentages:', font = ('calibre',15)).grid(column=4,row=1, pady=10,padx=5)
     percentage_btn = Button(window2, text = 'Show', command = show_percentages).grid(column=4,row=2,padx=10,pady=5)
     avg_percentage_label = Label(window2, text = f'Average Percentage: {avg_percent}', font = ('calibre',10)).grid(column=4,row=8, pady=5,padx=5)
+    
+    #student search
+    scores_label = Label(window2, text = 'Student Search:', font = ('calibre',15)).grid(column=8,row=1, pady=10,padx=5)
+    scoressearch_entry = Entry(window2, textvariable = student_search_entry).grid(column=8,row=2)
+    scoressearch_btn = Button(window2, text = 'Search', command = student_search).grid(column=8,row=3)
 
 
 # FINAL set up UI
