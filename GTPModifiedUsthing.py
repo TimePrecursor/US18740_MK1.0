@@ -1,6 +1,7 @@
 import tkinter.ttk as ttk
 from tkinter import *
 from tkinter import messagebox
+import sys
 
 # set up UI
 window = Tk()
@@ -16,6 +17,13 @@ placeholder_user = StringVar()
 global file_path
 file_path = 'secrets.txt'
 
+def closeapplication1():
+    window.destroy()
+    
+def closeapplication2():
+    window2.destroy()
+    sys.exit()
+    
 def mainpage_window():
     global window2
     window2 = Toplevel()
@@ -85,16 +93,19 @@ def check_username():
 def check_pin():
     x = placeholder_pin.get()
     print(x)
-    try:
-        y = int(x) + 2
-        x2 = x
-        count = 0
-        if len(str(x)) != 4:
-            raise TypeError
-    except:
-        messagebox.showerror("Error", "Invalid pin type.") 
-    else:
-        sign_in_Step1()
+    lol2 = True
+    while lol2:     
+        try:
+            y = int(x) + 2
+            x2 = x
+            count = 0
+            if len(str(x)) != 4:
+                raise TypeError
+        except:
+            messagebox.showerror("Error", "Invalid pin type.") 
+        else:
+            lol2 = False
+            sign_in_Step1()
 
 # the actual login function that splits the user to two different databases
 def login_user_step2(username):
@@ -149,13 +160,37 @@ def secondindowUI():
     scores_label = Label(window2, text='Student Search:', font=('calibre', 15)).grid(column=8, row=1, pady=10, padx=5)
     scoressearch_entry = Entry(window2, textvariable=student_search_entry).grid(column=8, row=2)
     scoressearch_btn = Button(window2, text='Search', command=student_search).grid(column=8, row=3)
+    
+    #Menu
+    menubar = Menu(window2)
+    filemenu = Menu(menubar, tearoff=0)
+    filemenu.add_command(label="New Student")
+    filemenu.add_command(label="Leaving Student")
+    filemenu.add_command(label="Close", command=lambda: closeapplication2())
+    menubar.add_cascade(label="Edit", menu=filemenu)
+    helpmenu = Menu(menubar, tearoff=0)
+    window2.config(menu=menubar)
 
 # FINAL set up UI
+
+#Menu
+menubar = Menu(window)
+filemenu = Menu(menubar, tearoff=0)
+
+filemenu.add_command(label="Close", command=lambda: closeapplication1())
+menubar.add_cascade(label="Edit", menu=filemenu)
+helpmenu = Menu(menubar, tearoff=0)
+window.config(menu=menubar)
+
+#Main UI
 userlabel = Label(window, text='Username:', font=('calibre', 10, 'bold')).pack(pady=10)
 userwentry = Entry(window, textvariable=placeholder_user).pack()
 passlabel = Label(window, text='Pin:', font=('calibre', 10, 'bold')).pack(pady=10)
 passwentry = Entry(window, textvariable=placeholder_pin).pack()
 signin_btn = Button(window, text='Sign in', command=check_pin).pack(pady=20)
+
+# Ensure the main window closes properly
+window.protocol("WM_DELETE_WINDOW", lambda: closeapplication1, closeapplication2())
 
 # Mainloop
 mainloop()
