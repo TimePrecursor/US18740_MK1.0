@@ -1,38 +1,56 @@
-import tkinter.ttk as ttk
 from tkinter import *
 from tkinter import messagebox
 import sys
 
 # set up UI
+global active_window_list
+active_window_list = []
 window = Tk()
 window.config(bg='lightgrey')
 window.title("Login")
 window.geometry('500x500')
 window.resizable(0,0)
+active_window_list.append("window")
 
 # Setup / constants / small functions
-placeholder_pin = StringVar()
+global placeholder_pin
+placeholder_pin = IntVar()
 placeholder_user = StringVar()
+
+
 
 global file_path
 file_path = 'secrets.txt'
 
 def closeapplication1():
-    window.destroy()
+    try:
+        if window.winfo_exists():    
+            window.destroy()
+            active_window_list.pop(0)
+    except:
+        print("error1")
+    try:
+        if window2.winfo_exists():    
+            window2.destroy()
+            indexlol = active_window_list.index("window2")
+            active_window_list.pop(indexlol)
+    except:
+        print("error2")
+    sys.exit()
     
 def closeapplication2():
-    window2.destroy()
-    sys.exit()
+    pass
     
 def mainpage_window():
     global window2
+    active_window_list.append("window2")
     window2 = Toplevel()
     window2.config(bg='lightgrey')
     window2.title("MainPage")
     window2.geometry('800x500')
     window2.resizable(0,0)
     window.withdraw()  # Close the login window
-    secondindowUI()
+    secondindowUI(placeholder_user.get())
 
 # signing in process
 def sign_in_Step1():
@@ -79,30 +97,42 @@ def writeto_file():
 def check_username():
     try:
         with open(file_path, 'r') as file:
-            x = placeholder_user.get()
+            y = placeholder_user.get()
             linesnum = file.readlines()
             for count, element in enumerate(linesnum):
-                if x in element:
-                    print(f"FOUND YA {x}, YOU WERE IN LINE {count}")
+                if y in element:
+                    print(f"FOUND YA {y}, YOU WERE IN LINE {count}")
                     check_pin()
-                else:
+                elif y not in element:
                     messagebox.showerror("Error", "User not found!") 
     except:
         print("ez")
 
+
+
+def convert_to_int(x=placeholder_pin.get()):
+    try:
+        string_value = x  # Get the value from the StringVar
+        int_value = int(string_value)    # Convert the string value to an integer
+        messagebox.showinfo("Conversion Success", f"The integer value is {int_value}")
+    except ValueError:
+        messagebox.showerror("Conversion Error", "Please enter a valid integer")
+
 def check_pin():
+    global placeholder_pin
     x = placeholder_pin.get()
     print(x)
     lol2 = True
     while lol2:     
         try:
-            y = int(x) + 2
+            convert_to_int(x)
             x2 = x
             count = 0
             if len(str(x)) != 4:
                 raise TypeError
         except:
             messagebox.showerror("Error", "Invalid pin type.") 
+            break
         else:
             lol2 = False
             sign_in_Step1()
@@ -130,22 +160,31 @@ def show_percentages():
 def student_search():
     student_id = "?"
     student_Lname = "?"
-    search = str(placeholder_user.get())
+    search = str(student_search_entry.get())
     user = str(placeholder_user.get())
     file_path = f"students_{user}.txt"
     with open(file_path, 'r') as file:
         linesnum = file.readlines()
-        if str(search) not in file.read():
+        students = file.readlines()
+        students = [student.strip() for student in students]  # Remove any leading/trailing whitespace
+        if search not in students:
             messagebox.showerror("Error", "Invalid student name or ID")
-        elif str(search) in file.read():
+        elif search in students:
             for count,element in enumerate(linesnum):
                 if search in linesnum[count]:
                     messagebox.showinfo("Student Found!", f"ID: {student_id}\n Last Name: {student_Lname}")
                     continue
+            
+            
+            
+            
+            
+
+       
 
 # Second window set up UI
 student_search_entry = StringVar()
-def secondindowUI():
+def secondindowUI(current_user):
     avg_percent = 10
     #scores setup
     scores_label = Label(window2, text='Student Scores:', font=('calibre', 15)).grid(column=1, row=1, pady=10, padx=5)
@@ -156,17 +195,24 @@ def secondindowUI():
     percentage_btn = Button(window2, text='Show', command=show_percentages).grid(column=4, row=2, padx=10, pady=5)
     avg_percentage_label = Label(window2, text=f'Average Percentage: {avg_percent}', font=('calibre', 10)).grid(column=4, row=8, pady=5, padx=5)
     
+    file_path2 = f"students_{current_user}.txt"
+    with open(file_path2, 'r') as file:
+        number_of_students = len(file.readlines())
+    
     #student search
     scores_label = Label(window2, text='Student Search:', font=('calibre', 15)).grid(column=8, row=1, pady=10, padx=5)
-    scoressearch_entry = Entry(window2, textvariable=student_search_entry).grid(column=8, row=2)
-    scoressearch_btn = Button(window2, text='Search', command=student_search).grid(column=8, row=3)
+    scores_label = Label(window2, text=f"Number of students: {number_of_students}", font=('calibre', 10)).grid(column=8, row=2, pady=10, padx=5)
+    scoressearch_entry = Entry(window2, textvariable=student_search_entry).grid(column=8, row=3)
+    scoressearch_btn = Button(window2, text='Search', command=student_search).grid(column=8, row=4)
+    
+
     
     #Menu
     menubar = Menu(window2)
     filemenu = Menu(menubar, tearoff=0)
     filemenu.add_command(label="New Student")
     filemenu.add_command(label="Leaving Student")
-    filemenu.add_command(label="Close", command=lambda: closeapplication2())
+    filemenu.add_command(label="Close", command=lambda: closeapplication1())
     menubar.add_cascade(label="Edit", menu=filemenu)
     helpmenu = Menu(menubar, tearoff=0)
     window2.config(menu=menubar)
@@ -186,11 +232,12 @@ window.config(menu=menubar)
 userlabel = Label(window, text='Username:', font=('calibre', 10, 'bold')).pack(pady=10)
 userwentry = Entry(window, textvariable=placeholder_user).pack()
 passlabel = Label(window, text='Pin:', font=('calibre', 10, 'bold')).pack(pady=10)
-passwentry = Entry(window, textvariable=placeholder_pin).pack()
+passwentry = Entry(window, textvariable=placeholder_pin)
+passwentry.pack()
 signin_btn = Button(window, text='Sign in', command=check_pin).pack(pady=20)
 
 # Ensure the main window closes properly
-window.protocol("WM_DELETE_WINDOW", lambda: closeapplication1, closeapplication2())
+window.protocol("WM_DELETE_WINDOW", lambda: closeapplication1())
 
 # Mainloop
 mainloop()
