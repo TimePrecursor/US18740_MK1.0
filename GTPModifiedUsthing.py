@@ -1,4 +1,6 @@
 from tkinter import *
+from tkinter import Tk
+from tkinter import DISABLED
 from tkinter import messagebox
 import sys
 
@@ -42,6 +44,8 @@ def closeapplication2():
     pass
     
 def mainpage_window():
+    global signin_btn
+    signin_btn(state= DISABLED)
     global window2
     active_window_list.append("window2")
     window2 = Toplevel()
@@ -69,7 +73,7 @@ def sign_in_Step1():
                 print("The right password for lewis has been entered")
                 login_user_step2(x_user)
                 break
-            elif indexthing == 2:
+            elif indexthing == 3:
                 messagebox.showerror("Error", "Wrong username or password!")
             else:
                 print("an error occurred")
@@ -114,9 +118,11 @@ def convert_to_int(x=placeholder_pin.get()):
     try:
         string_value = x  # Get the value from the StringVar
         int_value = int(string_value)    # Convert the string value to an integer
-        messagebox.showinfo("Conversion Success", f"The integer value is {int_value}")
+        if len(str(x)) != 4:
+            raise TypeError
+        return False
     except ValueError:
-        messagebox.showerror("Conversion Error", "Please enter a valid integer")
+        return True
 
 def check_pin():
     global placeholder_pin
@@ -125,13 +131,12 @@ def check_pin():
     lol2 = True
     while lol2:     
         try:
-            convert_to_int(x)
-            x2 = x
-            count = 0
-            if len(str(x)) != 4:
+            if convert_to_int(x) is True:
                 raise TypeError
+            elif convert_to_int(x) is False:
+                pass
         except:
-            messagebox.showerror("Error", "Invalid pin type.") 
+            messagebox.showerror("Error", "Invalid pin type.")
             break
         else:
             lol2 = False
@@ -164,14 +169,13 @@ def student_search():
     user = str(placeholder_user.get())
     file_path = f"students_{user}.txt"
     with open(file_path, 'r') as file:
-        linesnum = file.readlines()
         students = file.readlines()
         students = [student.strip() for student in students]  # Remove any leading/trailing whitespace
         if search not in students:
             messagebox.showerror("Error", "Invalid student name or ID")
         elif search in students:
-            for count,element in enumerate(linesnum):
-                if search in linesnum[count]:
+            for count,element in enumerate(students):
+                if search in students[count]:
                     messagebox.showinfo("Student Found!", f"ID: {student_id}\n Last Name: {student_Lname}")
                     continue
             
@@ -217,6 +221,8 @@ def secondindowUI(current_user):
     helpmenu = Menu(menubar, tearoff=0)
     window2.config(menu=menubar)
 
+    window2.protocol("WM_DELETE_WINDOW", lambda: closeapplication1())
+
 # FINAL set up UI
 
 #Menu
@@ -234,8 +240,9 @@ userwentry = Entry(window, textvariable=placeholder_user).pack()
 passlabel = Label(window, text='Pin:', font=('calibre', 10, 'bold')).pack(pady=10)
 passwentry = Entry(window, textvariable=placeholder_pin)
 passwentry.pack()
+global signin_btn
 signin_btn = Button(window, text='Sign in', command=check_pin).pack(pady=20)
-
+signin_btn = DISABLED
 # Ensure the main window closes properly
 window.protocol("WM_DELETE_WINDOW", lambda: closeapplication1())
 
