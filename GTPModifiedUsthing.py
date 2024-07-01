@@ -161,23 +161,37 @@ def scoressearch():
 def show_percentages():
     pass
 
-# Student search function
+# Student search functions
+
+def student_search_window(name):
+    searchwindow = Toplevel()
+    searchwindow.config(bg='lightgrey')
+    searchwindow.title("Student Search Window")
+    searchwindow.geometry('800x500')
+    searchwindow.resizable(0,1)
+    search_label = Label(searchwindow, text=f"Student(s) Found:\n {name}", font=('calibre', 15))
+    search_label.pack()
+
+
 def student_search():
-    student_id = "?"
-    student_Lname = "?"
     search = str(student_search_entry.get())
     user = str(placeholder_user.get())
+    student_list = []
     file_path = f"students_{user}.txt"
     with open(file_path, 'r') as file:
         students = file.readlines()
         students = [student.strip() for student in students]  # Remove any leading/trailing whitespace
-        if search not in students:
-            messagebox.showerror("Error", "Invalid student name or ID")
-        elif search in students:
-            for count,element in enumerate(students):
+        print(students)
+        for count,stud in enumerate(students):
+            if search in stud:
                 if search in students[count]:
-                    messagebox.showinfo("Student Found!", f"ID: {student_id}\n Last Name: {student_Lname}")
-                    continue
+                    student_list.append(students[count])
+            elif search not in stud:
+                pass
+
+
+    lololo = '\n'.join(student_list)
+    student_search_window(lololo)
             
             
             
