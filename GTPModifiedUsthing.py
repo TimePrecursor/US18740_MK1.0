@@ -45,7 +45,7 @@ def closeapplication2():
     
 def mainpage_window():
     global signin_btn
-    signin_btn(state= DISABLED)
+    signin_btn.config(state=DISABLED)
     global window2
     active_window_list.append("window2")
     window2 = Toplevel()
@@ -241,8 +241,8 @@ passlabel = Label(window, text='Pin:', font=('calibre', 10, 'bold')).pack(pady=1
 passwentry = Entry(window, textvariable=placeholder_pin)
 passwentry.pack()
 global signin_btn
-signin_btn = Button(window, text='Sign in', command=check_pin).pack(pady=20)
-signin_btn = DISABLED
+signin_btn = Button(window, text='Sign in', command=check_pin)
+signin_btn.pack(pady=20)
 # Ensure the main window closes properly
 window.protocol("WM_DELETE_WINDOW", lambda: closeapplication1())
 
