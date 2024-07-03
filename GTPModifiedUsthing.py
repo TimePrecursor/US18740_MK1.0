@@ -154,7 +154,8 @@ def login_user_step2(username):
 # Score
 def set_new_scores():
     filelines1 = []
-    file_path1 = "students_lou.txt"
+    user = str(placeholder_user.get())
+    file_path1 = f"students_{user}.txt"
     with open(file_path1, 'r') as f:
         for line1 in f.readlines():
             x = line1.replace("scores", f"{random.randint(0, 100)}")
@@ -175,7 +176,8 @@ def scoressearch():
 # Percentage
 def set_new_percentages():
     filelines1 = []
-    file_path1 = "students_lou.txt"
+    user = str(placeholder_user.get())
+    file_path1 = f"students_{user}.txt"
     with open(file_path1, 'r') as f:
         for line1 in f.readlines():
             x = line1.replace("percent", f"%{random.randint(0, 100)}%")
@@ -194,12 +196,13 @@ def show_passes_threshholds():
 def check_threshholds_2(x):
     if x < 60:
         return str("Not Achieved")
-    elif x > 60:
+    elif x >= 60:
         return str("Achieved")
 
 def check_threshholds():
     filelines1 = []
-    file_path1 = "students_lou.txt"
+    user = str(placeholder_user.get())
+    file_path1 = f"students_{user}.txt"
     with open(file_path1, 'r') as f:
         for line1 in f.readlines():
             percent1 = line1.split("%")

@@ -1,20 +1,20 @@
-Abel Pace
-Macauley Glenn
-Richard Dixon
-Owen Colon
-Rueben Villegas
-Sadia Higgins
-Caitlin Rodriguez
-Samia Eaton
-Fraser Riddle
-Cara Solis
-Thea Dickerson
-Lewys Olson
-Anika Meyers
-Eloise Fitzpatrick
-Meredith Alvarado
-Willie Strickland
-Adnan Morales
-Alec Marks
-Kallum Young
-Remi Burch
+Abel Pace | 91 | %33% | Not Achieved
+Macauley Glenn | 30 | %16% | Not Achieved
+Richard Dixon | 10 | %95% | Achieved
+Owen Colon | 55 | %59% | Not Achieved
+Rueben Villegas | 44 | %17% | Not Achieved
+Sadia Higgins | 70 | %73% | Achieved
+Caitlin Rodriguez | 99 | %39% | Not Achieved
+Samia Eaton | 35 | %9% | Not Achieved
+Fraser Riddle | 57 | %1% | Not Achieved
+Cara Solis | 93 | %65% | Achieved
+Thea Dickerson | 27 | %91% | Achieved
+Lewys Olson | 60 | %7% | Not Achieved
+Anika Meyers | 92 | %100% | Achieved
+Eloise Fitzpatrick | 19 | %96% | Achieved
+Meredith Alvarado | 97 | %5% | Not Achieved
+Willie Strickland | 40 | %57% | Not Achieved
+Adnan Morales | 2 | %20% | Not Achieved
+Alec Marks | 68 | %12% | Not Achieved
+Kallum Young | 18 | %93% | Achieved
+Remi Burch | 18 | %49% | Not Achieved

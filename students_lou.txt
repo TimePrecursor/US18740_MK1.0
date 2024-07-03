@@ -1,20 +1,20 @@
-Siobhan Mills
-Penny Marsh
-Jemima Trujillo
-Tabitha Woods
-Jannat Mosley
-Maizie Waller
-Greta Sharpe
-Kezia Alvarez
-Harun West
-Cara Donnelly
-Archie Wise
-Myles Atkins
-Sydney Oconnor
-Kamran Osborn
-Heather Holden
-Alfie Greene
-Dawid Glover
-Celeste Eaton
-Mehmet Welsh
-Elaine Richard
+Siobhan Mills | 18 | %10% | Not Achieved
+Penny Marsh | 58 | %18% | Not Achieved
+Jemima Trujillo | 38 | %51% | Not Achieved
+Tabitha Woods | 1 | %48% | Not Achieved
+Jannat Mosley | 9 | %10% | Not Achieved
+Maizie Waller | 30 | %46% | Not Achieved
+Greta Sharpe | 60 | %98% | Achieved
+Kezia Alvarez | 82 | %92% | Achieved
+Harun West | 72 | %60% | Achieved
+Cara Donnelly | 34 | %98% | Achieved
+Archie Wise | 8 | %22% | Not Achieved
+Myles Atkins | 64 | %66% | Achieved
+Sydney Oconnor | 17 | %0% | Not Achieved
+Kamran Osborn | 31 | %60% | Achieved
+Heather Holden | 73 | %62% | Achieved
+Alfie Greene | 78 | %62% | Achieved
+Dawid Glover | 100 | %18% | Not Achieved
+Celeste Eaton | 41 | %71% | Achieved
+Mehmet Welsh | 13 | %56% | Not Achieved
+Elaine Richard | 0 | %42% | Not Achieved
