@@ -3,6 +3,7 @@ from tkinter import Tk
 from tkinter import DISABLED
 from tkinter import messagebox
 import sys
+import random
 
 # set up UI
 global active_window_list
@@ -151,6 +152,20 @@ def login_user_step2(username):
         messagebox.showerror("Error", "Invalid username!")
 
 # Score
+def set_new_scores():
+    filelines1 = []
+    file_path1 = "students_lou.txt"
+    with open(file_path1, 'r') as f:
+        for line1 in f.readlines():
+            x = line1.replace("scores", f"{random.randint(0, 100)}")
+            filelines1.append(x)
+    with open(file_path1, 'w') as f:
+        for y in filelines1:
+            f.write(f"{y}")
+    filelines1.clear()
+
+
+
 def show_scores():
     pass
 
@@ -158,8 +173,44 @@ def scoressearch():
     pass
 
 # Percentage
+def set_new_percentages():
+    filelines1 = []
+    file_path1 = "students_lou.txt"
+    with open(file_path1, 'r') as f:
+        for line1 in f.readlines():
+            x = line1.replace("percent", f"%{random.randint(0, 100)}%")
+            filelines1.append(x)
+    with open(file_path1, 'w') as f:
+        for y in filelines1:
+            f.write(f"{y}")
+    filelines1.clear()
+
 def show_percentages():
     pass
+
+def show_passes_threshholds():
+    pass
+
+def check_threshholds_2(x):
+    if x < 60:
+        return str("Not Achieved")
+    elif x > 60:
+        return str("Achieved")
+
+def check_threshholds():
+    filelines1 = []
+    file_path1 = "students_lou.txt"
+    with open(file_path1, 'r') as f:
+        for line1 in f.readlines():
+            percent1 = line1.split("%")
+            int_x = percent1[1].replace("%","")
+            percent1 = int(int_x)
+            x = line1.replace("thresh", f'{check_threshholds_2(percent1)}')
+            filelines1.append(x)
+    with open(file_path1, 'w') as f:
+        for y in filelines1:
+            f.write(f"{y}")
+    filelines1.clear()
 
 # Student search functions
 
@@ -177,10 +228,13 @@ def student_search():
     search = str(student_search_entry.get())
     user = str(placeholder_user.get())
     student_list = []
+    students = []
     file_path = f"students_{user}.txt"
     with open(file_path, 'r') as file:
-        students = file.readlines()
-        students = [student.strip() for student in students]  # Remove any leading/trailing whitespace
+        for line in file.readlines():
+            x = line.split("|")
+            students.append(x[0])
+        #students = [student.strip() for student in students]  # Remove any leading/trailing whitespace
         print(students)
         for count,stud in enumerate(students):
             if search in stud:
@@ -207,12 +261,14 @@ def secondindowUI(current_user):
     #scores setup
     scores_label = Label(window2, text='Student Scores:', font=('calibre', 15)).grid(column=1, row=1, pady=10, padx=5)
     scores_btn = Button(window2, text='Show', command=show_scores).grid(column=1, row=2, padx=10, pady=5)
+    scores_btn2 = Button(window2, text='Gen Rand Scores (ADMIN)', command=set_new_scores).grid(column=1, row=50, padx=10, pady=5)
     
     #percentage setup
     percentage_label = Label(window2, text='Student Percentages:', font=('calibre', 15)).grid(column=4, row=1, pady=10, padx=5)
     percentage_btn = Button(window2, text='Show', command=show_percentages).grid(column=4, row=2, padx=10, pady=5)
     avg_percentage_label = Label(window2, text=f'Average Percentage: {avg_percent}', font=('calibre', 10)).grid(column=4, row=8, pady=5, padx=5)
-    
+    percentage_btn2 = Button(window2, text='Gen Rand Percentages (ADMIN)', command=set_new_percentages).grid(column=4, row=50, padx=10, pady=5)
+    percentage_btn3 = Button(window2, text='Set Passed or not (ADMIN)', command=check_threshholds).grid(column=4, row=60, padx=10, pady=5)
     file_path2 = f"students_{current_user}.txt"
     with open(file_path2, 'r') as file:
         number_of_students = len(file.readlines())
