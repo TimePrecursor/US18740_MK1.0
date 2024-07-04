@@ -52,8 +52,8 @@ def mainpage_window():
     window2 = Toplevel()
     window2.config(bg='lightgrey')
     window2.title("MainPage")
-    window2.geometry('800x500')
-    window2.resizable(0,0)
+    window2.geometry('900x600')
+    window2.resizable(1,0)
     window.withdraw()  # Close the login window
     secondindowUI(placeholder_user.get())
 
@@ -179,7 +179,7 @@ def averg_percentages():
     for x in percent:
         y = x.replace("%", "", 2)
         num += int(y)
-    return num/len(percent)
+    return num//len(percent)
 
 def averg_scores():
     score = []
@@ -192,7 +192,7 @@ def averg_scores():
             score.append(x[1])
     for x in score:
         num += int(x)
-    return num/len(score)
+    return num//len(score)
 
 
 # Percentage
@@ -232,6 +232,45 @@ def check_threshholds():
         for y in filelines1:
             f.write(f"{y}")
     filelines1.clear()
+
+def avg_students_met():
+    thresh = []
+    num = 0
+    ind = 0
+    user = str(placeholder_user.get())
+    file_path1 = f"students_{user}.txt"
+    with open(file_path1, 'r') as file:
+        for line in file.readlines():
+            ind += 1
+            x = line.split("|")
+            thresh.append(x[3])
+    for x in thresh:
+        y = x.replace("\n","")
+        y = y.strip()
+        if y == "Achieved":
+            num += 1
+        else:
+            pass
+    return num
+
+def number_of_students_passed():
+    thresh_num = []
+    num = 0
+    user = str(placeholder_user.get())
+    file_path1 = f"students_{user}.txt"
+    with open(file_path1, 'r') as file:
+        for line in file.readlines():
+            x = line.split("|")
+            y = (x[3]).replace("\n","")
+            y = y.strip()
+            if y == "Achieved":
+                thresh_num.append(y)
+    for x in thresh_num:
+        if x == "Achieved":
+            num += 1
+        else:
+            pass
+    return num
 
 # Student search functions
 
@@ -331,7 +370,7 @@ def secondindowUI(current_user):
     #percentage setup
     percentage_label = Label(window2, text='Student Percentages:', font=('calibre', 15)).grid(column=4, row=1, pady=10, padx=5)
     percentage_btn = Button(window2, text='Show', command=lambda: student_search(2)).grid(column=4, row=2, padx=10, pady=5)
-    avg_percentage_label = Label(window2, text=f'Average Percentage: {averg_percentages()}', font=('calibre', 10)).grid(column=4, row=8, pady=5, padx=5)
+    avg_percentage_label = Label(window2, text=f'Average Percentage: {averg_percentages()}%', font=('calibre', 10)).grid(column=4, row=8, pady=5, padx=5)
     #percentage_btn2 = Button(window2, text='Gen Rand Percentages (ADMIN)', command=set_new_percentages).grid(column=4, row=50, padx=10, pady=5)
     #percentage_btn3 = Button(window2, text='Set Passed or not (ADMIN)', command=check_threshholds).grid(column=4, row=60, padx=10, pady=5)
     file_path2 = f"students_{current_user}.txt"
@@ -339,10 +378,13 @@ def secondindowUI(current_user):
         number_of_students = len(file.readlines())
     
     #student search
-    scores_label = Label(window2, text='Student Search:', font=('calibre', 15)).grid(column=8, row=1, pady=10, padx=5)
-    scores_label = Label(window2, text=f"Number of students: {number_of_students}", font=('calibre', 10)).grid(column=8, row=2, pady=10, padx=5)
-    scoressearch_entry = Entry(window2, textvariable=student_search_entry).grid(column=8, row=3)
-    scoressearch_btn = Button(window2, text='Search', command= lambda: student_search(0)).grid(column=8, row=4)
+    scores_label = Label(window2, text='Student Search:', font=('calibre', 15)).grid(column=6, row=1, pady=10, padx=5)
+    scores_label = Label(window2, text=f"Number of students: {number_of_students}", font=('calibre', 10)).grid(column=6, row=2, pady=10, padx=5)
+    scoressearch_entry = Entry(window2, textvariable=student_search_entry).grid(column=6, row=3)
+    scoressearch_btn = Button(window2, text='Search', command= lambda: student_search(0)).grid(column=6, row=4)
+
+    threshhold_label1 = Label(window2, text=f'Average Threshold met:   {avg_students_met()}', font=('calibre', 15)).grid(column=9, row=1, pady=10, padx=2)
+    threshhold_label2 = Label(window2, text=f"Number Of Students Passed: {number_of_students_passed()}", font=('calibre', 10)).grid(column=9, row=2, pady=10, padx=2)
     
 
     
