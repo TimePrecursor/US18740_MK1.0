@@ -167,11 +167,33 @@ def set_new_scores():
 
 
 
-def show_scores():
-    pass
+def averg_percentages():
+    percent = []
+    num = 0
+    user = str(placeholder_user.get())
+    file_path1 = f"students_{user}.txt"
+    with open(file_path1, 'r') as file:
+        for line in file.readlines():
+            x = line.split("|")
+            percent.append(x[2])
+    for x in percent:
+        y = x.replace("%", "", 2)
+        num += int(y)
+    return num/len(percent)
 
-def scoressearch():
-    pass
+def averg_scores():
+    score = []
+    num = 0
+    user = str(placeholder_user.get())
+    file_path1 = f"students_{user}.txt"
+    with open(file_path1, 'r') as file:
+        for line in file.readlines():
+            x = line.split("|")
+            score.append(x[1])
+    for x in score:
+        num += int(x)
+    return num/len(score)
+
 
 # Percentage
 def set_new_percentages():
@@ -187,11 +209,7 @@ def set_new_percentages():
             f.write(f"{y}")
     filelines1.clear()
 
-def show_percentages():
-    pass
 
-def show_passes_threshholds():
-    pass
 
 def check_threshholds_2(x):
     if x < 60:
@@ -217,39 +235,83 @@ def check_threshholds():
 
 # Student search functions
 
-def student_search_window(name):
+def student_search_window(name, type):
     searchwindow = Toplevel()
     searchwindow.config(bg='lightgrey')
     searchwindow.title("Student Search Window")
     searchwindow.geometry('800x500')
     searchwindow.resizable(0,1)
-    search_label = Label(searchwindow, text=f"Student(s) Found:\n {name}", font=('calibre', 15))
-    search_label.pack()
+    if type == "1":
+        search_label = Label(searchwindow, text=f"Student Scores:\n {name}", font=('calibre', 15))
+        search_label.pack()
+    elif type == "2":
+        search_label = Label(searchwindow, text=f"Student Percentages:\n {name}", font=('calibre', 15))
+        search_label.pack()
+    elif type == "3":
+        search_label = Label(searchwindow, text=f"Student Thresholds:\n {name}", font=('calibre', 15))
+        search_label.pack()
+    elif type == 0:
+        search_label = Label(searchwindow, text=f"Student(s) Found:\n {name}", font=('calibre', 15))
+        search_label.pack()
 
 
-def student_search():
+
+def student_search(type):
+    score = []
+    percent = []
+    thresh = []
     search = str(student_search_entry.get())
     user = str(placeholder_user.get())
     student_list = []
     students = []
     file_path = f"students_{user}.txt"
+
     with open(file_path, 'r') as file:
         for line in file.readlines():
             x = line.split("|")
-            students.append(x[0])
-        #students = [student.strip() for student in students]  # Remove any leading/trailing whitespace
-        print(students)
-        for count,stud in enumerate(students):
-            if search in stud:
-                if search in students[count]:
-                    student_list.append(students[count])
-            elif search not in stud:
-                pass
+            students.append(f"{x[0]}")
+            score.append(f"{x[0]}{(x[1])}")
+            percent.append(f"{x[0]}{(x[2])}")
+
+        if type == 0:
+            for count,stud in enumerate(students):
+                if search in stud:
+                    if search in students[count]:
+                        student_list.append(students[count])
+                elif search not in stud:
+                    pass
+
+        if type == 5:
+            for line in file.readlines():
+                x = line.split("|")
+                score.append(x[1])
 
 
-    lololo = '\n'.join(student_list)
-    student_search_window(lololo)
-            
+        if type == 5:
+            for line in file.readlines():
+                x = line.split("|")
+                percent.append(x[2])
+            for count,stud in enumerate(percent):
+                if search in stud:
+                    if search in students[count]:
+                        student_list.append(students[count])
+                elif search not in stud:
+                    pass
+
+
+    lololo = '\n'.join(students)
+    lololo1 = '\n'.join(score)
+    lololo2 = '\n'.join(percent)
+    lololo3 = '\n'.join(thresh)
+
+    if type == 1:
+        student_search_window(lololo1, "1")
+    elif type == 2:
+        student_search_window(lololo2, "2")
+    elif type == 3:
+        student_search_window(lololo3, "3")
+    else:
+        student_search_window(lololo, 0)
             
             
             
@@ -260,18 +322,18 @@ def student_search():
 # Second window set up UI
 student_search_entry = StringVar()
 def secondindowUI(current_user):
-    avg_percent = 10
     #scores setup
     scores_label = Label(window2, text='Student Scores:', font=('calibre', 15)).grid(column=1, row=1, pady=10, padx=5)
-    scores_btn = Button(window2, text='Show', command=show_scores).grid(column=1, row=2, padx=10, pady=5)
-    scores_btn2 = Button(window2, text='Gen Rand Scores (ADMIN)', command=set_new_scores).grid(column=1, row=50, padx=10, pady=5)
+    scores_btn = Button(window2, text='Show', command=lambda: student_search(1)).grid(column=1, row=2, padx=10, pady=5)
+    avg_percentage_label = Label(window2, text=f'Average Score: {averg_scores()}', font=('calibre', 10)).grid(column=1, row=8, pady=5, padx=5)
+    #scores_btn2 = Button(window2, text='Gen Rand Scores (ADMIN)', command=set_new_scores).grid(column=1, row=50, padx=10, pady=5)
     
     #percentage setup
     percentage_label = Label(window2, text='Student Percentages:', font=('calibre', 15)).grid(column=4, row=1, pady=10, padx=5)
-    percentage_btn = Button(window2, text='Show', command=show_percentages).grid(column=4, row=2, padx=10, pady=5)
-    avg_percentage_label = Label(window2, text=f'Average Percentage: {avg_percent}', font=('calibre', 10)).grid(column=4, row=8, pady=5, padx=5)
-    percentage_btn2 = Button(window2, text='Gen Rand Percentages (ADMIN)', command=set_new_percentages).grid(column=4, row=50, padx=10, pady=5)
-    percentage_btn3 = Button(window2, text='Set Passed or not (ADMIN)', command=check_threshholds).grid(column=4, row=60, padx=10, pady=5)
+    percentage_btn = Button(window2, text='Show', command=lambda: student_search(2)).grid(column=4, row=2, padx=10, pady=5)
+    avg_percentage_label = Label(window2, text=f'Average Percentage: {averg_percentages()}', font=('calibre', 10)).grid(column=4, row=8, pady=5, padx=5)
+    #percentage_btn2 = Button(window2, text='Gen Rand Percentages (ADMIN)', command=set_new_percentages).grid(column=4, row=50, padx=10, pady=5)
+    #percentage_btn3 = Button(window2, text='Set Passed or not (ADMIN)', command=check_threshholds).grid(column=4, row=60, padx=10, pady=5)
     file_path2 = f"students_{current_user}.txt"
     with open(file_path2, 'r') as file:
         number_of_students = len(file.readlines())
@@ -280,7 +342,7 @@ def secondindowUI(current_user):
     scores_label = Label(window2, text='Student Search:', font=('calibre', 15)).grid(column=8, row=1, pady=10, padx=5)
     scores_label = Label(window2, text=f"Number of students: {number_of_students}", font=('calibre', 10)).grid(column=8, row=2, pady=10, padx=5)
     scoressearch_entry = Entry(window2, textvariable=student_search_entry).grid(column=8, row=3)
-    scoressearch_btn = Button(window2, text='Search', command=student_search).grid(column=8, row=4)
+    scoressearch_btn = Button(window2, text='Search', command= lambda: student_search(0)).grid(column=8, row=4)
     
 
     
